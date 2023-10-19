@@ -1,3 +1,6 @@
+#ifndef _PCAP_H_
+#define _PCAP_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pcap.h>
@@ -14,3 +17,20 @@
 #include <netinet/ether.h> 
 #include <time.h>
 #include <pcap/pcap.h>
+#include "parser.h"
+
+class PcapParse{
+    private:
+    pcap_t *p_pcap;
+    IpParse ipParser;
+
+    public:
+        PcapParse(IpParse ipParser);
+        bool OpenFile(char *file_name);
+        bool OpenInterface(char *interface_name);
+        void PcapGet();
+        //! todo: pcap compile to add filter
+};
+
+
+#endif

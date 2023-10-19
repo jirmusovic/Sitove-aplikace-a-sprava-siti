@@ -1,15 +1,19 @@
 #include "argcheck.h"
 
-int optcheck(int argc, char* argv[]){
+
+ArgCheck::ArgCheck() = default;
+
+ArgCheck::ArgCheck(int argc, char* argv[]){
     int opt;
-    bool is_pcap, is_interface;
-    char *interface, *pcap_file;
 
     is_pcap = false;
     is_interface = false;
 
-    while ((opt = getopt(argc, argv, "r:i:")) != -1) {
+    while ((opt = getopt(argc, argv, "hr:i:")) != -1) {
         switch (opt) {
+        case 'h':
+            printf("./dhcp-stats [-r <filename>] [-i <interface-name>] <ip-prefix> [ <ip-prefix> [ ... ] ]");
+            break;
         case 'r':
             pcap_file = optarg;
             is_pcap = true;
@@ -19,5 +23,13 @@ int optcheck(int argc, char* argv[]){
             is_interface = true;
             break;
         }
+    }
+
+    pref= &argv[optind];
+    pref_cnt = argc - optind;
+
+//! todo: regex pro ip
+    for(int i = 0; i < pref_cnt; i++){
+        printf("pref: %s \n", pref[i]);
     }
 }

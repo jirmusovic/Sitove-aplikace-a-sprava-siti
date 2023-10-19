@@ -4,19 +4,19 @@ CFLAGS= -c -Wall
 all: prog
 
 prog: main.o pcap.o argcheck.o parser.o
-	$(CC) main.o pcap.o argcheck.o parser.o -o prog
+	$(CC) main.o pcap.o argcheck.o parser.o -o prog -lpcap
 
 main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
-pcap.o: pcap.cpp
-	$(CC) $(CFLAGS) pcap.cpp
+pcap.o: pcap.cpp pcap.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-argcheck.o: argcheck.cpp
-	$(CC) $(CFLAGS) argcheck.cpp
+argcheck.o: argcheck.cpp argcheck.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-parser.o: parser.cpp
-	$(CC) $(CFLAGS) parser.cpp
+parser.o: parser.cpp parser.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf *.o 

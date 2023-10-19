@@ -1,3 +1,6 @@
+#ifndef _ARGCHECK_H_
+#define _ARGCHECK_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,4 +12,18 @@
 #include <unistd.h>
 #include <iostream>
 
-int optcheck(int argc, char* argv[]);
+class ArgCheck{
+    private:
+
+    public:
+        ArgCheck();
+        ArgCheck(int argc, char* argv[]);
+
+        bool is_pcap, is_interface;
+        char *interface, *pcap_file;
+        char **pref;
+        int pref_cnt;
+};
+
+
+#endif
