@@ -34,7 +34,7 @@ class IpParse{
             uint8_t mask_len;
             uint32_t mask;
             char * pref;
-            int max;
+            uint32_t max;
             std::set<u_int32_t> ip;
         }parser_t;
 

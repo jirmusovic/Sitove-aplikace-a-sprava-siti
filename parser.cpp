@@ -14,13 +14,12 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
         subnet.mask_len = atoi(strtok(NULL, "/"));
         subnet.mask = ~0<<(32-subnet.mask_len);
         subnet.broad_ip = subnet.net_ip|(~subnet.mask);
-        subnet.max = pow(2, 32-subnet.mask) - 2;
+        subnet.max = pow(2, 32-subnet.mask_len) - 2;
         prefixes.push_back(subnet);
         double util = 100 * subnet.ip.size()/(double)subnet.max;
-        mvprintw(i+1, 0, "%s %d %d %d", prefixes_array[i], subnet.max, subnet.ip.size(), util);
+        mvprintw(i+1, 0, "%s %u %u %.2f%%", prefixes_array[i], subnet.max, subnet.ip.size(), util);
     }
     refresh();
-    getch();
 }
 
 IpParse::IpParse() = default;
@@ -29,7 +28,7 @@ void IpParse::ActualParse(uint32_t ip){
     for(parser_t subnet: prefixes){
         if((ip & subnet.mask) == subnet.net_ip && (subnet.net_ip != ip) && (ip != subnet.broad_ip)){
             subnet.ip.insert(ip);
-            printf("ip: %x belongs to subnet %s \n", ip, subnet.pref);
+            //printf("ip: %x belongs to subnet %s \n", ip, subnet.pref);
         }
     }
 }

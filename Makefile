@@ -3,8 +3,9 @@ CFLAGS= -c -Wall
 
 all: prog
 
-prog: main.o pcap.o argcheck.o parser.o
+prog: main.o pcap.o argcheck.o parser.o 
 	$(CC) main.o pcap.o argcheck.o parser.o -o prog -lpcap -lncurses -lm
+	rm -rf *.o
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c $< -o $@

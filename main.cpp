@@ -14,5 +14,5 @@ int main (int argc, char** argv) {
         pcapParse.OpenInterface(argCheck.interface);
     }
     pcapParse.PcapGet();
-    
+    getchar();
 }
