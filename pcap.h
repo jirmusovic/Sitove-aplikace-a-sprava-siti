@@ -18,6 +18,7 @@
 #include <time.h>
 #include <pcap/pcap.h>
 #include "parser.h"
+#include <ncurses.h>
 
 class PcapParse{
     private:

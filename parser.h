@@ -22,6 +22,7 @@
 #include <bits/stdc++.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <ncurses.h>
 
 
 class IpParse{
@@ -33,6 +34,7 @@ class IpParse{
             uint8_t mask_len;
             uint32_t mask;
             char * pref;
+            int max;
             std::set<u_int32_t> ip;
         }parser_t;
 
@@ -42,6 +44,9 @@ class IpParse{
         IpParse();
         IpParse(char **prefixes, int pref_cnt);
         void ActualParse(uint32_t ip);
+
+        ~IpParse();
+
         
 };
 
