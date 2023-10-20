@@ -25,12 +25,18 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
 IpParse::IpParse() = default;
 
 void IpParse::ActualParse(uint32_t ip){
-    for(parser_t subnet: prefixes){
-        if((ip & subnet.mask) == subnet.net_ip && (subnet.net_ip != ip) && (ip != subnet.broad_ip)){
-            subnet.ip.insert(ip);
-            //printf("ip: %x belongs to subnet %s \n", ip, subnet.pref);
+    for(int i = 0; i < prefixes.size(); i++){
+        parser_t * subnet = &prefixes.at(i);
+        if((ip & subnet->mask) == subnet->net_ip && (subnet->net_ip != ip) && (ip != subnet->broad_ip)){
+            subnet->ip.insert(ip);
+            //printf("size %d", subnet->ip.size());
+            double util = 100 * subnet->ip.size()/(double)subnet->max;
+            mvprintw(i+1, 0, "%s %u %u %.2f%%", subnet->pref, subnet->max, subnet->ip.size(), util);
+            //move(i+2,0);
+            //getch();
         }
     }
+            refresh();
 }
 
 

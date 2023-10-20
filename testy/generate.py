@@ -37,7 +37,7 @@ def main():
         packet = ethernet / ip / udp / bootp / dhcp
 
         sendp(packet, iface = tap_interface)
-        time.sleep(0.5)
+        #time.sleep(0.5)
 
 
 if __name__ == '__main__':
