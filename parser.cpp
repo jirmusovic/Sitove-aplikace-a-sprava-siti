@@ -17,7 +17,12 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
         subnet.max = pow(2, 32-subnet.mask_len) - 2;
         prefixes.push_back(subnet);
         double util = 100 * subnet.ip.size()/(double)subnet.max;
-        mvprintw(i+1, 0, "%s %u %u %.2f%%", prefixes_array[i], subnet.max, subnet.ip.size(), util);
+        double full = 50.00;
+        if((full-util) <= 0){
+        //    mvprintw(i+1, 0, "prefix %s/%d exceeded 50%% of allocations", prefixes_array[i], subnet.mask_len);
+        }
+        mvprintw(i+1, 0, "%s/%d %u %u %.2f%%", prefixes_array[i], subnet.mask_len, subnet.max, subnet.ip.size(), util);
+        
     }
     refresh();
 }
@@ -25,13 +30,16 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
 IpParse::IpParse() = default;
 
 void IpParse::ActualParse(uint32_t ip){
-    for(int i = 0; i < prefixes.size(); i++){
+    for(long unsigned int i = 0; i < prefixes.size(); i++){
         parser_t * subnet = &prefixes.at(i);
         if((ip & subnet->mask) == subnet->net_ip && (subnet->net_ip != ip) && (ip != subnet->broad_ip)){
             subnet->ip.insert(ip);
-            //printf("size %d", subnet->ip.size());
             double util = 100 * subnet->ip.size()/(double)subnet->max;
-            mvprintw(i+1, 0, "%s %u %u %.2f%%", subnet->pref, subnet->max, subnet->ip.size(), util);
+            double full = 50.00;
+            if((full-util) <= 0){
+            //    mvprintw(i+1, 0, "prefix %s/%d exceeded 50%% of allocations", subnet->pref, subnet->mask_len);
+            }
+            mvprintw(i+1, 0, "%s/%d %u %u %.2f%%", subnet->pref, subnet->mask_len, subnet->max, subnet->ip.size(), util);
             //move(i+2,0);
             //getch();
         }

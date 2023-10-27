@@ -29,7 +29,8 @@ ArgCheck::ArgCheck(int argc, char* argv[]){
     pref_cnt = argc - optind;
 
 //! todo: regex pro ip
-    // for(int i = 0; i < pref_cnt; i++){
-    //     printf("pref: %s \n", pref[i]);
+    // char ip_regex;
+    // if(*pref != &ip_regex){
+        
     // }
 }
