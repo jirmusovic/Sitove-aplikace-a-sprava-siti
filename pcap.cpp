@@ -1,3 +1,14 @@
+/**
+ * @file pcap.cpp
+ * @author Veronika Jirmusová (xjirmu00@vutbr.cz)
+ * @brief 
+ * @version 0.1
+ * @date 10-11-2023
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "pcap.h"
 
 PcapParse::PcapParse(IpParse ipParser) {
@@ -28,7 +39,6 @@ void PcapParse::PcapGet(){
             header_len = my_ip->ip_hl*4;
             if(my_ip->ip_p == IPPROTO_UDP){
                 struct in_addr *yradd = (struct in_addr *)(packet + ETH_HLEN + header_len + 8 + 16); //udp hdr + yradd offset
-                //printf("%s \n", inet_ntoa(*yradd));
                 ipParser.ActualParse(ntohl(yradd->s_addr));
             }
         }

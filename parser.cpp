@@ -1,3 +1,14 @@
+/**
+ * @file parser.cpp
+ * @author Veronika Jirmusová (xjirmu00@vutbr.cz)
+ * @brief 
+ * @version 0.1
+ * @date 10-11-2023
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "parser.h"
 
 IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
@@ -9,17 +20,19 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
         char *ptr = strtok (prefixes_array[i], "/");
         int ip;
         inet_pton(AF_INET, ptr, &ip);
-        //printf("%x\n", ntohl(ip));
         subnet.net_ip = ntohl(ip);
         subnet.mask_len = atoi(strtok(NULL, "/"));
-        subnet.mask = ~0<<(32-subnet.mask_len);
+        if(subnet.mask_len == 0){
+            subnet.mask = 0;
+        } else {
+            subnet.mask = ~0<<(32-subnet.mask_len);
+        }
         subnet.broad_ip = subnet.net_ip|(~subnet.mask);
         subnet.max = pow(2, 32-subnet.mask_len) - 2;
         prefixes.push_back(subnet);
         double util = 100 * subnet.ip.size()/(double)subnet.max;
         double full = 50.00;
         if((full-util) <= 0){
-        //    mvprintw(i+1, 0, "prefix %s/%d exceeded 50%% of allocations", prefixes_array[i], subnet.mask_len);
         }
         mvprintw(i+1, 0, "%s/%d %u %u %.2f%%", prefixes_array[i], subnet.mask_len, subnet.max, subnet.ip.size(), util);
         
@@ -37,11 +50,9 @@ void IpParse::ActualParse(uint32_t ip){
             double util = 100 * subnet->ip.size()/(double)subnet->max;
             double full = 50.00;
             if((full-util) <= 0){
-            //    mvprintw(i+1, 0, "prefix %s/%d exceeded 50%% of allocations", subnet->pref, subnet->mask_len);
             }
             mvprintw(i+1, 0, "%s/%d %u %u %.2f%%", subnet->pref, subnet->mask_len, subnet->max, subnet->ip.size(), util);
-            //move(i+2,0);
-            //getch();
+
         }
     }
             refresh();

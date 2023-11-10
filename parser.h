@@ -1,3 +1,14 @@
+/**
+ * @file parser.h
+ * @author Veronika Jirmusová (xjirmu00@vutbr.cz)
+ * @brief 
+ * @version 0.1
+ * @date 10-11-2023
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef _PARSER_H_
 #define _PARSER_H_
 

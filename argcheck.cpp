@@ -1,3 +1,14 @@
+/**
+ * @file argcheck.cpp
+ * @author Veronika Jirmusová (xjirmu00@vutbr.cz)
+ * @brief 
+ * @version 0.1
+ * @date 10-11-2023
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include "argcheck.h"
 
 
@@ -30,6 +41,7 @@ ArgCheck::ArgCheck(int argc, char* argv[]){
 
 //! todo: regex pro ip
     // char ip_regex;
+    // "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))/(30|([0-2]?[0-9]?))"
     // if(*pref != &ip_regex){
         
     // }
