@@ -1,11 +1,11 @@
 /**
- * @file main.cpp
- * @author Veronika Jirmusová (xjirmu00@vutbr.cz)
- * @brief 
- * @version 0.1
- * @date 10-11-2023
+ * @file        main.cpp
+ * @author      Veronika Jirmusová (xjirmu00@vutbr.cz)
+ * @brief       Main function that starts the whole process
+ * @version     0.1
+ * @date        10-11-2023
  * 
- * @copyright Copyright (c) 2023
+ * @copyright   Copyright (c) 2023
  * 
  */
 
@@ -13,6 +13,12 @@
 #include "pcap.h"
 #include "parser.h"
 
+/**
+ * @brief           Main function     
+ * 
+ * @param argc      The number of command line arguments
+ * @param argv      The array of command line arguments
+ */
 
 int main (int argc, char** argv) {
     ArgCheck argCheck(argc, argv);

@@ -3,8 +3,8 @@ CFLAGS= -c -Wall
 
 all: prog
 
-prog: main.o pcap.o argcheck.o parser.o syslog.o
-	$(CC) main.o pcap.o argcheck.o parser.o syslog.o -o prog -lpcap -lncurses -lm
+prog: main.o pcap.o argcheck.o parser.o 
+	$(CC) main.o pcap.o argcheck.o parser.o -o prog -lpcap -lncurses -lm
 	rm -rf *.o
 
 main.o: main.cpp
@@ -19,8 +19,6 @@ argcheck.o: argcheck.cpp argcheck.h
 parser.o: parser.cpp parser.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-syslog.o: syslog.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf *.o 
