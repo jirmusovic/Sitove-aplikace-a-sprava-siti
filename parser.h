@@ -48,6 +48,7 @@ class IpParse{
         IpParse();
         IpParse(char **prefixes, int pref_cnt);  // Constructor to parse and display information about IP prefixes
         void ActualParse(uint32_t ip);           // Function to parse an IP address and update subnet information
+        void ConsoleAccess();
         
         ~IpParse();                              // Destructor to clean up resources
 

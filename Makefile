@@ -1,10 +1,10 @@
 CC=g++
 CFLAGS= -c -Wall
 
-all: prog
+all: dhcp-stats
 
-prog: main.o pcap.o argcheck.o parser.o 
-	$(CC) main.o pcap.o argcheck.o parser.o -o prog -lpcap -lncurses -lm
+dhcp-stats: main.o pcap.o argcheck.o parser.o 
+	$(CC) main.o pcap.o argcheck.o parser.o -o dhcp-stats -lpcap -lncurses -lm
 	rm -rf *.o
 
 main.o: main.cpp

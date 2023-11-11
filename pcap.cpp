@@ -24,9 +24,9 @@
 
 #include "pcap.h"
 
-// Constructor that takes an IpParse object
 PcapParse::PcapParse(IpParse ipParser) {
     this->ipParser = ipParser;
+    
 }
 
 // Open a pcap file for reading
@@ -42,6 +42,7 @@ bool PcapParse::OpenFile(char *file_name){
 
 // Extract IP addresses from captured packets
 void PcapParse::PcapGet(){
+    this->ipParser.ConsoleAccess();
     const u_char *packet;  
     struct pcap_pkthdr header; 
 
@@ -52,11 +53,23 @@ void PcapParse::PcapGet(){
             struct ip* my_ip = (struct ip*) (packet + ETH_HLEN);
             header_len = my_ip->ip_hl*4;
             if(my_ip->ip_p == IPPROTO_UDP){
-                struct in_addr *yradd = (struct in_addr *)(packet + ETH_HLEN + header_len + 8 + 16); //udp hdr + yradd offset
-                ipParser.ActualParse(ntohl(yradd->s_addr));
+                struct in_addr *yradd = (struct in_addr *)(packet + ETH_HLEN + header_len + 8 + 16); // Udp header + yradd offset
+                uint32_t options = ETH_HLEN + 8 + 240 + header_len;
+                uint8_t opt;
+                while((opt = *(uint8_t *) (packet + options)) != 53 && options < header.caplen){
+                    uint8_t msg;
+                    msg = *(uint8_t *) (packet + options + 1);
+                    options += msg + 2;
+                }
+                if(opt == 53){
+                    if(*(uint8_t *) (packet + options + 2) == 5){
+                        ipParser.ActualParse(ntohl(yradd->s_addr));
+                    }
+                }
             }
         }
     }
+    pcap_close(p_pcap);
 }
 
 // Open a live interface for packet capture

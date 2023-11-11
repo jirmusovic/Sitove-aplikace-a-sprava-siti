@@ -40,7 +40,7 @@ ArgCheck::ArgCheck(int argc, char* argv[]){
         switch (opt) {
         // Print usage information and exit if -h is specified
         case 'h':
-            std::cout << "./dhcp-stats [-r <filename>] [-i <interface-name>] <ip-prefix> [ <ip-prefix> [ ... ] ]" << std::endl;
+            std::cout << "Hello there!\nsThe correct way to start the program is here: ./dhcp-stats [-r <filename>] [-i <interface-name>] <ip-prefix> [ <ip-prefix> [ ... ] ]" << std::endl;
             exit(1);
             break;
         // Set file that needs to be used and indicate that -r is specified
