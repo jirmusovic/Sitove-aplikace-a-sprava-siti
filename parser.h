@@ -34,6 +34,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <ncurses.h>
+#include <syslog.h>
 
 
 class IpParse{

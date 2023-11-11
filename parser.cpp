@@ -31,9 +31,6 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
         subnet.max = pow(2, 32-subnet.mask_len) - 2;
         prefixes.push_back(subnet);
         double util = 100 * subnet.ip.size()/(double)subnet.max;
-        double full = 50.00;
-        if((full-util) <= 0){
-        }
         mvprintw(i+1, 0, "%s/%d %u %u %.2f%%", prefixes_array[i], subnet.mask_len, subnet.max, subnet.ip.size(), util);
         
     }
@@ -43,13 +40,17 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
 IpParse::IpParse() = default;
 
 void IpParse::ActualParse(uint32_t ip){
+    setlogmask(LOG_UPTO(LOG_NOTICE));
+    openlog("dhcp-stats", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0);
+    initscr();
     for(long unsigned int i = 0; i < prefixes.size(); i++){
         parser_t * subnet = &prefixes.at(i);
         if((ip & subnet->mask) == subnet->net_ip && (subnet->net_ip != ip) && (ip != subnet->broad_ip)){
             subnet->ip.insert(ip);
             double util = 100 * subnet->ip.size()/(double)subnet->max;
-            double full = 50.00;
-            if((full-util) <= 0){
+    
+            if(subnet->ip.size() >= subnet->max/2.0){
+
             }
             mvprintw(i+1, 0, "%s/%d %u %u %.2f%%", subnet->pref, subnet->mask_len, subnet->max, subnet->ip.size(), util);
 
