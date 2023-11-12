@@ -21,14 +21,14 @@
  */
 
 int main (int argc, char** argv) {
-    ArgCheck argCheck(argc, argv);
-    IpParse ipParse(argCheck.pref, argCheck.pref_cnt);
+    ArgCheck argCheck(argc, argv);                          // Parse given arguments given via command line
+    IpParse ipParse(argCheck.pref, argCheck.pref_cnt);      // Parse given IP and collect information
     PcapParse pcapParse(ipParse);
     if(argCheck.is_pcap){
-        pcapParse.OpenFile(argCheck.pcap_file);
+        pcapParse.OpenFile(argCheck.pcap_file);             // Open file if needed
     }
     else if(argCheck.is_interface){
-        pcapParse.OpenInterface(argCheck.interface);
+        pcapParse.OpenInterface(argCheck.interface);        // Start sniffing if needed
     }
     pcapParse.PcapGet();
     getchar();

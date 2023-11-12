@@ -31,9 +31,9 @@ class ArgCheck{
     private:
 
     public:
-        ArgCheck();
-        ArgCheck(int argc, char* argv[]);
-        bool isCorrect(const std::string& vstup);
+        ArgCheck();                                 // Constructor
+        ArgCheck(int argc, char* argv[]);           // Parsing command line arguments
+        bool isCorrect(const std::string& vstup);   // Regex checking given IP
 
         bool is_pcap, is_interface;
         char *interface, *pcap_file;

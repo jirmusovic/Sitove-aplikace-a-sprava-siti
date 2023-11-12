@@ -30,9 +30,9 @@ class PcapParse{
 
     public:
         PcapParse(IpParse ipParser);
-        bool OpenFile(char *file_name);
-        bool OpenInterface(char *interface_name);
-        void PcapGet();
+        bool OpenFile(char *file_name);             // Open the pcap file
+        bool OpenInterface(char *interface_name);   // Open a live interface for packet capture
+        void PcapGet();                             // Extract IP adresses
 };
 
 

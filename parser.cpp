@@ -25,6 +25,7 @@
 
 #include "parser.h"
 
+// Parse given IP and get the all needed information, then push it into a vector
 IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
     // Initialization of system log process
     setlogmask(LOG_UPTO(LOG_NOTICE));
@@ -47,19 +48,19 @@ IpParse::IpParse(char **prefixes_array, int pref_array_cnt) {
             subnet.mask = ~0<<(32-subnet.mask_len);
         }
         subnet.broad_ip = subnet.net_ip|(~subnet.mask);
-        subnet.max = pow(2, 32-subnet.mask_len) - 2;
+        subnet.max = pow(2, 32-subnet.mask_len) - 2;    // Calculating the mask
         subnet.net_ip &= subnet.mask;
         // Push subnet info to the prefix vector
         prefixes.push_back(subnet);
         
     }
-    
 }
 
 
 void IpParse::ConsoleAccess(){
         // Display header for the subnet information
     printw("IP-Prefix Max-hosts Allocated addresses Utilization");
+
     for(u_long i = 0; i < prefixes.size(); i++){
         mvprintw(i+1, 0, "%s/%d %u %u 0.0%%", prefixes.at(i).pref, prefixes.at(i).mask_len, prefixes.at(i).max, prefixes.at(i).ip.size());
     }
@@ -72,12 +73,14 @@ void IpParse::ActualParse(uint32_t ip){
     // Loop through each subnet and check if the provided IP belongs to it
     for(long unsigned int i = 0; i < prefixes.size(); i++){
         parser_t * subnet = &prefixes.at(i);
+
         if((ip & subnet->mask) == subnet->net_ip && (subnet->net_ip != ip) && (ip != subnet->broad_ip)){
             // Update the subnet information with the allocated IP
             subnet->ip.insert(ip);
 
             // Calculate utilization and display updated information on the screen
             double util = 100 * subnet->ip.size()/(double)subnet->max;
+
             if(subnet->ip.size() >= subnet->max/2.0 && !subnet->half ){
                 subnet->half = true;
                 openlog("dhcp-stats", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0);

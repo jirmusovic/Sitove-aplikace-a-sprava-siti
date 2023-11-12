@@ -26,17 +26,18 @@
 
 PcapParse::PcapParse(IpParse ipParser) {
     this->ipParser = ipParser;
-    
 }
 
 // Open a pcap file for reading
 bool PcapParse::OpenFile(char *file_name){
     char errbuff[PCAP_ERRBUF_SIZE];
     p_pcap = pcap_open_offline(file_name, errbuff);
+
     if(p_pcap == NULL){
         printf("%s \n", errbuff);
         return false;
     }
+    
     return true;
 }
 
@@ -46,23 +47,28 @@ void PcapParse::PcapGet(){
     const u_char *packet;  
     struct pcap_pkthdr header; 
 
+    // Moving through the whole IPv4 and counting bytes
     while ((packet = pcap_next(p_pcap,&header)) != NULL){
         struct ether_header *eptr = (struct ether_header *) packet;
+
         if(ntohs(eptr->ether_type) == ETHERTYPE_IP){
             u_int header_len;                       // IPv4 header length
-            struct ip* my_ip = (struct ip*) (packet + ETH_HLEN);
+            struct ip* my_ip = (struct ip*) (packet + ETH_HLEN);  // IP goes after ethernet type
             header_len = my_ip->ip_hl*4;
+
             if(my_ip->ip_p == IPPROTO_UDP){
-                struct in_addr *yradd = (struct in_addr *)(packet + ETH_HLEN + header_len + 8 + 16); // Udp header + yradd offset
-                uint32_t options = ETH_HLEN + 8 + 240 + header_len;
+                struct in_addr *yradd = (struct in_addr *)(packet + ETH_HLEN + header_len + 8 + 16); // Udp header = 8 + yradd offset = 16
+                uint32_t options = ETH_HLEN + 8 + 240 + header_len; //Udp header = 8, options offset = 240
                 uint8_t opt;
-                while((opt = *(uint8_t *) (packet + options)) != 53 && options < header.caplen){
+
+                while((opt = *(uint8_t *) (packet + options)) != 53 && options < header.caplen){  // 53 = message type option, so move through the IP untill you get to the ACK message
                     uint8_t msg;
                     msg = *(uint8_t *) (packet + options + 1);
                     options += msg + 2;
                 }
+
                 if(opt == 53){
-                    if(*(uint8_t *) (packet + options + 2) == 5){
+                    if(*(uint8_t *) (packet + options + 2) == 5){    // If the message says ACK
                         ipParser.ActualParse(ntohl(yradd->s_addr));
                     }
                 }
@@ -76,9 +82,11 @@ void PcapParse::PcapGet(){
 bool PcapParse::OpenInterface(char *interface_name){
     char errbuff[PCAP_ERRBUF_SIZE];
     p_pcap = pcap_open_live(interface_name, BUFSIZ, 1, 1000, errbuff);
+
     if(p_pcap == NULL){
         printf("%s \n", errbuff);
         return false;
     }
+
     return true;
 }
