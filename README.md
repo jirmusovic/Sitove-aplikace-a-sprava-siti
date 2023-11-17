@@ -7,7 +7,7 @@
 Program monitoruje DHCP komunikaci (nebo ji přečte ze zadaného souboru) a poskytuje síťové  statistiky o vytížení síťových prefixů z pohledu alokovaných IP adres.
 
 Program se překládá pomocí příkazu make a spouští se pomocí příkazové řádky příkazem 
-<br> $./dhcp-stats [-r <filename>] [-i <interface-name>] <ip-prefix> [ <ip-prefix> [ ... ] ],$<br>
+<br> $./dhcp-stats [-r '<'filename>] [-i <interface-name>] <ip-prefix> [ <ip-prefix> [ ... ] ],$<br>
 kde:
 
      - -r <filename>: statistika bude vytvořena z pcap souborů,
