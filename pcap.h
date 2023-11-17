@@ -14,7 +14,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <pcap.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ether.h> 
