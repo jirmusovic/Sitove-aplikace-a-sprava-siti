@@ -1,4 +1,5 @@
 # ISA projekt - DHCP komunikace
+20/20
 
 ## Jméno autora: Veronika Jirmusová
 ## Login: xjirmu00
